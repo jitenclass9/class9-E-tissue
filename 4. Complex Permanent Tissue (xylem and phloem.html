@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  
+  
+  <title> Quiz – 4. Complex Permanent Tissue (xylem and phloem</title>
+  
+  
+  <style>
+    body{font-family:Arial, sans-serif;padding:20px;background:#121212;color:#f0f0f0;}
+    #logo{display:block;margin:0 auto 25px;max-width:180px;}
+    #name-container{background:#1e1e1e;padding:30px;border-radius:6px;max-width:420px;margin:0 auto;}
+    #name-container input{width:100%;padding:10px;margin:10px 0 15px;border:none;border-radius:4px;font-size:16px;}
+    #quiz-container{display:none;}
+    .question{border:1px solid #333;padding:15px;margin-bottom:20px;border-radius:5px;background:#1e1e1e;}
+    .question h3{margin:0 0 10px;}
+    .option-item { display: flex; align-items: center; gap: 8px; margin: 6px 0; padding: 6px 8px; border-radius: 4px; background: #2a2a2a; color: #ccc; cursor: pointer; }
+    .option-item input[type="radio"] { margin: 0; }
+    .submit-button,.toggle-button,.dontknow-button{margin-top:10px;padding:6px 12px;background:#007BFF;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;}
+    .solution{display:none;margin-top:10px;background:#2d2d2d;padding:10px;border-left:4px solid #28a745;}
+    #scorecard{background:#2d2d2d;padding:15px;border-radius:6px;margin-top:30px;display:none;}
+    #timer{font-weight:bold;color:#00ffcc;}
+    #studentPrintName{text-align:center;font-size:18px;font-weight:bold;margin-top:-15px;margin-bottom:5px;display:none;}
+    #examDateTime{text-align:center;font-size:14px;margin-bottom:20px;display:none;}
+    @media print {
+      body { background: #fff; color:#000; }
+      .submit-button, .dontknow-button, .toggle-button, #reportBtn, #reportModal { display:none !important; }
+      #name-container { display:none !important; }
+    }
+    #reportBtn { position: fixed; bottom: 20px; right: 20px; background: #ff4757; color: white; border: none; padding: 12px 18px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); z-index: 1000; }
+    #reportModal { display: none; position: fixed; bottom: 80px; right: 20px; background: #1e1e1e; border: 1px solid #444; padding: 15px; border-radius: 8px; width: 260px; z-index: 1001; }
+    #reportModal textarea { width: 100%; height: 80px; padding: 8px; border: none; border-radius: 4px; resize: none; font-size: 14px; }
+    #reportModal button { margin-top: 10px; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    #sendReport { background: #28a745; color: white; }
+    #closeReport { background: #dc3545; color: white; margin-left: 5px; }
+  </style>
+
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(','\\)'], ['$', '$']], 
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<img id="logo" src="https://i.ibb.co/WNZTWPwv/LOGO-PNG-2025-fab.png" alt="Logo" />
+
+<div id="studentPrintName"></div>
+<div id="examDateTime"></div>
+
+<div id="name-container">
+  <h2>Enter your name to begin</h2>
+  <input type="text" id="studentNameInput" placeholder="Your Name" />
+  <button class="submit-button" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div id="quiz-container">
+
+
+  <h2> Quiz – 4. Complex Permanent Tissue (xylem and phloem</h2>
+  
+  
+  <p><strong>Time Elapsed:</strong> <span id="timer">00:00</span></p>
+  <div id="questions-container"></div>
+
+  <div style="margin-top:30px;">
+    <button class="submit-button" onclick="finalSubmit()">Final Submit</button>
+    <button class="submit-button" onclick="printQuestions()">Print Questions</button>
+    <button class="submit-button" id="printScoreBtn" onclick="printScorecard()" style="display:none;">Save or Print Scorecard</button>
+    <button class="submit-button" id="shareWhatsappBtn" style="display:none;">SHARE on WhatsApp</button>
+  </div>
+
+ <div id="scorecard">
+  <h3>Your Scorecard</h3>
+  <p id="scoreText"></p>
+  <table id="scoreTable" border="1" cellspacing="0" cellpadding="6" style="width:100%;border-collapse:collapse;margin-top:15px;">
+    <thead style="background:#333;color:#fff;">
+      <tr>
+        <th>Q.No</th>
+        <th>Question</th>
+        <th>Your Answer</th>
+        <th>Correct Answer</th>
+        <th>Result</th>
+        <th>Solution</th>
+      </tr>
+    </thead>
+    <tbody id="scoreDetails"></tbody>
+  </table>
+</div>
+
+<button id="reportBtn">Report Mistake</button>
+
+<div id="reportModal">
+  <textarea id="reportMsg" placeholder="Describe the mistake..."></textarea>
+  <div style="text-align:right;">
+    <button id="sendReport">Send</button>
+    <button id="closeReport">Close</button>
+  </div>
+</div>
+
+<script>
+
+
+const Q = [
+  {
+    "id": "q1",
+    "question": "Which of the following is the main water-conducting cell in gymnosperms?",
+    "options": {
+      "A": "Tracheids",
+      "B": "Vessels",
+      "C": "Phloem parenchyma",
+      "D": "Sieve tubes"
+    },
+    "answer": "A",
+    "solution": "Gymnosperms mainly conduct water through tracheids since vessels are generally absent."
+  },
+  {
+    "id": "q2",
+    "question": "Which type of xylem element has perforation plates?",
+    "options": {
+      "A": "Tracheids",
+      "B": "Vessels",
+      "C": "Xylem parenchyma",
+      "D": "Fibres"
+    },
+    "answer": "B",
+    "solution": "Vessels have perforation plates that help in efficient water conduction."
+  },
+  {
+    "id": "q3",
+    "question": "Which of the following is a living component of xylem?",
+    "options": {
+      "A": "Tracheids",
+      "B": "Vessels",
+      "C": "Xylem parenchyma",
+      "D": "Xylem fibres"
+    },
+    "answer": "C",
+    "solution": "Xylem parenchyma is the only living component of xylem."
+  },
+  {
+    "id": "q4",
+    "question": "The main function of sieve tubes is:",
+    "options": {
+      "A": "Conduction of water",
+      "B": "Conduction of food",
+      "C": "Providing mechanical support",
+      "D": "Absorption of water"
+    },
+    "answer": "B",
+    "solution": "Sieve tubes are specialized cells of phloem for transport of organic food materials."
+  },
+  {
+    "id": "q5",
+    "question": "Which phloem element lacks a nucleus but is kept alive by companion cells?",
+    "options": {
+      "A": "Sieve tubes",
+      "B": "Sieve plate",
+      "C": "Phloem parenchyma",
+      "D": "Phloem fibres"
+    },
+    "answer": "A",
+    "solution": "Sieve tube elements lose nucleus at maturity but survive due to companion cells."
+  },
+  {
+    "id": "q6",
+    "question": "The small pores in the sieve plate are responsible for:",
+    "options": {
+      "A": "Passage of water",
+      "B": "Mechanical strength",
+      "C": "Cytoplasmic connections",
+      "D": "Formation of lignin"
+    },
+    "answer": "C",
+    "solution": "Sieve plates have pores for cytoplasmic connections between sieve tube elements."
+  },
+  {
+    "id": "q7",
+    "question": "Companion cells are found in association with:",
+    "options": {
+      "A": "Tracheids",
+      "B": "Sieve tubes",
+      "C": "Xylem parenchyma",
+      "D": "Fibres"
+    },
+    "answer": "B",
+    "solution": "Companion cells support sieve tubes in functioning and food conduction."
+  },
+  {
+    "id": "q8",
+    "question": "Which xylem element provides both mechanical support and water conduction?",
+    "options": {
+      "A": "Xylem parenchyma",
+      "B": "Tracheids",
+      "C": "Fibres",
+      "D": "Phloem parenchyma"
+    },
+    "answer": "B",
+    "solution": "Tracheids are elongated cells with thick walls that provide support and conduct water."
+  },
+  {
+    "id": "q9",
+    "question": "Phloem parenchyma is absent in:",
+    "options": {
+      "A": "Dicots",
+      "B": "Monocots",
+      "C": "Gymnosperms",
+      "D": "All plants"
+    },
+    "answer": "B",
+    "solution": "Phloem parenchyma is usually absent in monocotyledonous plants."
+  },
+  {
+    "id": "q10",
+    "question": "Which of the following is dead at maturity?",
+    "options": {
+      "A": "Xylem parenchyma",
+      "B": "Companion cell",
+      "C": "Sieve tube element",
+      "D": "Xylem vessel"
+    },
+    "answer": "D",
+    "solution": "Xylem vessels become dead at maturity to conduct water efficiently."
+  },
+  {
+    "id": "q11",
+    "question": "The main function of xylem parenchyma is:",
+    "options": {
+      "A": "Transport of water",
+      "B": "Storage of food and lateral transport",
+      "C": "Mechanical support",
+      "D": "Conduction of food"
+    },
+    "answer": "B",
+    "solution": "Xylem parenchyma stores starch, tannins, oils, and helps in lateral transport of water."
+  },
+  {
+    "id": "q12",
+    "question": "Which phloem element is thick-walled and provides mechanical support?",
+    "options": {
+      "A": "Companion cells",
+      "B": "Sieve tubes",
+      "C": "Phloem fibres",
+      "D": "Phloem parenchyma"
+    },
+    "answer": "C",
+    "solution": "Phloem fibres (bast fibres) are sclerenchymatous and provide support."
+  },
+  {
+    "id": "q13",
+    "question": "Which xylem cell type evolved later and is more efficient for water conduction?",
+    "options": {
+      "A": "Tracheids",
+      "B": "Vessels",
+      "C": "Fibres",
+      "D": "Parenchyma"
+    },
+    "answer": "B",
+    "solution": "Vessels evolved later and are more efficient than tracheids due to wider lumen."
+  },
+  {
+    "id": "q14",
+    "question": "Sieve tubes and companion cells are developed from the same:",
+    "options": {
+      "A": "Mother cell",
+      "B": "Different meristems",
+      "C": "Xylem cell",
+      "D": "Cambium fibre"
+    },
+    "answer": "A",
+    "solution": "Sieve tubes and companion cells originate from the same mother cell."
+  },
+  {
+    "id": "q15",
+    "question": "The porous transverse wall between two sieve tube elements is called:",
+    "options": {
+      "A": "Plasmodesmata",
+      "B": "Sieve plate",
+      "C": "Companion wall",
+      "D": "Pit membrane"
+    },
+    "answer": "B",
+    "solution": "The sieve plate has pores that connect adjacent sieve tubes."
+  },
+  {
+    "id": "q16",
+    "question": "Which xylem element lacks end walls and forms continuous tubes?",
+    "options": {
+      "A": "Tracheids",
+      "B": "Vessels",
+      "C": "Xylem fibres",
+      "D": "Parenchyma"
+    },
+    "answer": "B",
+    "solution": "Vessels have perforation plates and join end to end to form continuous tubes."
+  },
+  {
+    "id": "q17",
+    "question": "Which of the following phloem elements is living and thin-walled?",
+    "options": {
+      "A": "Phloem parenchyma",
+      "B": "Phloem fibres",
+      "C": "Sieve plates",
+      "D": "Tracheids"
+    },
+    "answer": "A",
+    "solution": "Phloem parenchyma is living and thin-walled, used for storage."
+  },
+  {
+    "id": "q18",
+    "question": "The term 'bast fibres' refers to:",
+    "options": {
+      "A": "Xylem fibres",
+      "B": "Phloem fibres",
+      "C": "Companion cells",
+      "D": "Tracheids"
+    },
+    "answer": "B",
+    "solution": "Phloem fibres are also called bast fibres and used in ropes and textiles."
+  },
+  {
+    "id": "q19",
+    "question": "In xylem, mechanical strength is mainly provided by:",
+    "options": {
+      "A": "Vessels",
+      "B": "Tracheids",
+      "C": "Fibres",
+      "D": "Parenchyma"
+    },
+    "answer": "C",
+    "solution": "Xylem fibres are thick-walled and provide mechanical support."
+  },
+  {
+    "id": "q20",
+    "question": "The conduction of water in xylem occurs due to:",
+    "options": {
+      "A": "Osmosis",
+      "B": "Capillarity and cohesion-tension",
+      "C": "Diffusion",
+      "D": "Root pressure only"
+    },
+    "answer": "B",
+    "solution": "Water rises in xylem mainly due to cohesion-tension and capillary forces."
+  },
+  {
+    "id": "q21",
+    "question": "Which of the following is NOT part of phloem?",
+    "options": {
+      "A": "Sieve tubes",
+      "B": "Companion cells",
+      "C": "Xylem parenchyma",
+      "D": "Phloem fibres"
+    },
+    "answer": "C",
+    "solution": "Xylem parenchyma belongs to xylem, not phloem."
+  },
+  {
+    "id": "q22",
+    "question": "Food in plants is transported in the form of:",
+    "options": {
+      "A": "Starch",
+      "B": "Sucrose",
+      "C": "Glucose",
+      "D": "Amino acids only"
+    },
+    "answer": "B",
+    "solution": "Food mainly moves as sucrose solution in phloem sap."
+  },
+  {
+    "id": "q23",
+    "question": "Which phloem element controls the functioning of sieve tubes?",
+    "options": {
+      "A": "Companion cells",
+      "B": "Phloem fibres",
+      "C": "Phloem parenchyma",
+      "D": "Tracheids"
+    },
+    "answer": "A",
+    "solution": "Companion cells regulate sieve tube activity through plasmodesmata."
+  },
+  {
+    "id": "q24",
+    "question": "Which of the following xylem elements helps in lateral conduction of water?",
+    "options": {
+      "A": "Vessels",
+      "B": "Tracheids",
+      "C": "Xylem parenchyma",
+      "D": "Xylem fibres"
+    },
+    "answer": "C",
+    "solution": "Xylem parenchyma helps in lateral movement of water and nutrients."
+  },
+  {
+    "id": "q25",
+    "question": "In angiosperms, the most efficient water-conducting element is:",
+    "options": {
+      "A": "Tracheids",
+      "B": "Vessels",
+      "C": "Fibres",
+      "D": "Parenchyma"
+    },
+    "answer": "B",
+    "solution": "Vessels are highly specialized for efficient conduction of water in angiosperms."
+  }
+]
+
+;
+
+
+
+let student = '';
+let timerHandle;
+let printMode = '';
+let examDateTime = '';
+
+const quizTitle = document.title.split("Quiz")[1]?.trim() || document.title;
+
+function startQuiz() {
+  const name = document.getElementById('studentNameInput').value.trim();
+  if (!name) { alert('Please enter your name.'); return; }
+  student = name;
+  examDateTime = new Date().toLocaleString();
+  document.getElementById('name-container').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  buildQuestions();
+  if (window.MathJax) MathJax.typesetPromise();
+  startTimer();
+}
+
+function buildQuestions() {
+  const out = document.getElementById('questions-container');
+  out.innerHTML = '';
+
+  Q.forEach((q, index) => {
+    const qText = q.text || q.question || q.prompt || ''; // tolerate different keys
+
+    // Normalize options into an ordered array of [letter, optionText]
+    let entries = [];
+    if (Array.isArray(q.options)) {
+      // options is an array -> map to A, B, C...
+      entries = q.options.map((opt, i) => [String.fromCharCode(65 + i), opt]);
+    } else if (q.options && typeof q.options === 'object') {
+      // options is an object -> check if keys are letters (A,B,C...) or numeric
+      const keys = Object.keys(q.options);
+      const keysAreLetters = keys.every(k => /^[A-Z]$/.test(k));
+      if (keysAreLetters) {
+        // sort alphabetically to ensure order A,B,C...
+        keys.sort();
+        entries = keys.map(k => [k, q.options[k]]);
+      } else {
+        // numeric keys or other -> preserve insertion order but assign letters A,B,C..
+        entries = keys.map((k, i) => [String.fromCharCode(65 + i), q.options[k]]);
+      }
+    }
+
+    const optionsHTML = entries.map(([letter, opt]) => {
+      return `<label class="option-item" for="${q.id}-${letter}">
+                <input type="radio" id="${q.id}-${letter}" name="${q.id}" value="${letter}" onchange="enableSubmit('${q.id}')">
+                ${letter}. ${opt}
+              </label>`;
+    }).join('');
+
+    const imageHTML = q.image ? `<div><img src="${q.image}" alt="figure" style="max-width:360px; margin:10px 0; display:block;"></div>` : '';
+
+    out.insertAdjacentHTML('beforeend', `
+      <div class="question" id="${q.id}-wrap">
+        <h3>Q${index + 1}. ${qText}</h3>
+        ${imageHTML}
+        <div class="options">${optionsHTML}</div>
+        <div id="${q.id}-buttons">
+          <button id="sub-${q.id}" class="submit-button" disabled onclick="grade('${q.id}')">Submit</button>
+          <button class="dontknow-button" onclick="skip('${q.id}')">I Don’t Know</button>
+        </div>
+        <button class="toggle-button" id="btn-sol-${q.id}" style="display:none;" onclick="toggleSolution('sol-${q.id}')">Show Solution</button>
+        <div class="solution" id="sol-${q.id}"><strong>Solution:</strong> ${q.solution}</div>
+      </div>
+    `);
+  });
+
+  // re-run MathJax to typeset any LaTeX in added content
+  if (window.MathJax && typeof MathJax.typesetPromise === 'function') MathJax.typesetPromise();
+}
+
+
+
+function enableSubmit(qid) { document.getElementById(`sub-${qid}`).disabled = false; }
+
+function grade(qid) {
+  const q = Q.find(x => x.id === qid);
+  // accept different possible field names for the correct answer
+  const correct = q.correct || q.answer || q.key || q.correctAnswer;
+  const chosen = document.querySelector(`input[name="${qid}"]:checked`);
+  if (!chosen) return;
+
+  // lock options
+  document.querySelectorAll(`input[name="${qid}"]`).forEach(i => i.disabled = true);
+
+  // the chosen label
+  const chosenLabel = chosen.closest('label.option-item');
+
+  // find input that matches the correct letter
+  const correctInput = document.querySelector(`input[name="${qid}"][value="${correct}"]`);
+  const correctLabel = correctInput ? correctInput.closest('label.option-item') : null;
+
+  if (chosen.value === correct) {
+    // correct
+    if (chosenLabel) {
+      chosenLabel.style.background = '#28a745';
+      chosenLabel.style.color = '#fff';
+    }
+  } else {
+    // wrong: mark chosen red, mark correct green (if found)
+    if (chosenLabel) {
+      chosenLabel.style.background = '#dc3545';
+      chosenLabel.style.color = '#fff';
+    }
+    if (correctLabel) {
+      correctLabel.style.background = '#28a745';
+      correctLabel.style.color = '#fff';
+    }
+  }
+
+  // show solution immediately
+  const solElem = document.getElementById(`sol-${qid}`);
+  if (solElem) solElem.style.display = "block";
+
+  // hide the buttons for this question
+  const buttons = document.getElementById(`${qid}-buttons`);
+  if (buttons) buttons.style.display = "none";
+  const btnSol = document.getElementById(`btn-sol-${q.id}`);
+  if (btnSol) btnSol.style.display = "none";
+
+  // re-typeset MathJax for solution if it contains LaTeX
+  if (window.MathJax && typeof MathJax.typesetPromise === 'function') MathJax.typesetPromise();
+}
+
+
+function skip(qid) { document.querySelectorAll(`input[name="${qid}"]`).forEach(r => r.disabled = true); showSolutionButton(qid); }
+function showSolutionButton(qid) { document.getElementById(`btn-sol-${qid}`).style.display = 'inline-block'; document.getElementById(`${qid}-buttons`).style.display = 'none'; }
+function toggleSolution(id) { const elem = document.getElementById(id); elem.style.display = elem.style.display === 'block' ? 'none' : 'block'; }
+
+function startTimer() {
+  const display = document.getElementById('timer');
+  const started = Date.now();
+  timerHandle = setInterval(() => { const s = Math.floor((Date.now() - started) / 1000); display.textContent = `${String((s / 60) | 0).padStart(2,'0')}:${String(s % 60).padStart(2,'0')}`; }, 1000);
+}
+
+function finalSubmit() {
+  clearInterval(timerHandle);
+  document.querySelectorAll("input[type=radio]").forEach(r => r.disabled = true);
+  document.querySelectorAll(".submit-button, .dontknow-button").forEach(btn => btn.style.display = "none");
+
+  let score = 0, detailHTML = '';
+  Q.forEach((q, index) => {
+    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+    const chosen = checked ? checked.value : 'Not Answered';
+
+    // ✅ unify correct answer field
+    const correctLetter = q.correct || q.answer || q.key || q.correctAnswer;
+
+    const isCorrect = (chosen === correctLetter);
+    if (isCorrect) score++;
+
+    detailHTML += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${q.text || q.question}</td>
+        <td>${chosen}</td>
+        <td>${correctLetter}</td>
+        <td>${isCorrect ? '✅ Correct' : '❌ Incorrect'}</td>
+        <td>${q.solution}</td>
+      </tr>`;
+  });
+
+  document.getElementById('scoreText').innerText = `${student}, you scored ${score}/${Q.length}.`;
+  document.getElementById('scoreDetails').innerHTML = detailHTML;
+  document.getElementById('scorecard').style.display = 'block';
+  document.getElementById('printScoreBtn').style.display = 'inline-block';
+  document.getElementById('shareWhatsappBtn').style.display = 'inline-block';
+
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+
+function printQuestions() { printMode = "questions"; window.print(); }
+function printScorecard() { document.getElementById("studentPrintName").innerText = student; document.getElementById("examDateTime").innerText = "Exam Date & Time: " + examDateTime; printMode = "scorecard"; window.print(); }
+
+window.addEventListener('beforeprint', () => {
+  if (printMode === "questions") { document.querySelector("#questions-container").style.display = "block"; document.querySelector("#scorecard").style.display = "none"; document.querySelector("#logo").style.display = "none"; document.querySelector("#name-container").style.display = "none"; document.querySelector("#timer").style.display = "none"; document.querySelector("#studentPrintName").style.display = "none"; document.querySelector("#examDateTime").style.display = "none"; }
+  if (printMode === "scorecard") { document.querySelector("#questions-container").style.display = "none"; document.querySelector("#scorecard").style.display = "block"; document.querySelector("#logo").style.display = "block"; document.querySelector("#name-container").style.display = "none"; document.querySelector("#studentPrintName").style.display = "block"; document.querySelector("#examDateTime").style.display = "block"; }
+});
+window.addEventListener('afterprint', () => { document.querySelector("#questions-container").style.display = ""; document.querySelector("#scorecard").style.display = ""; document.querySelector("#logo").style.display = ""; document.querySelector("#name-container").style.display = ""; document.querySelector("#timer").style.display = ""; document.querySelector("#studentPrintName").style.display = "none"; document.querySelector("#examDateTime").style.display = "none"; });
+
+document.getElementById("shareWhatsappBtn").addEventListener("click", function () {
+  const whatsappNumber = "9108069409455";
+  const scoreText = document.getElementById('scoreText').innerText;
+  let details = "Details:\n";
+  Q.forEach((q, i) => {
+    const qNum = i + 1;
+    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+    const userAns = checked ? checked.value : "Not Answered";
+    const correctAns = q.correct;
+    if (userAns === correctAns) { details += `Q${qNum} → ✅ Correct (Your Ans: ${userAns})\n`; }
+    else { details += `Q${qNum} → ❌ Wrong (Your Ans: ${userAns} | Correct: ${correctAns})\n`; }
+  });
+  const message = `Sir, I have shared my Test Result for checking. Thank you!\n\n📘 Quiz Title: ${quizTitle}\n👤 Student: ${student}\n${scoreText}\n\n${details}`;
+  const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(waUrl, "_blank");
+});
+
+const reportBtn = document.getElementById("reportBtn");
+const reportModal = document.getElementById("reportModal");
+const sendReport = document.getElementById("sendReport");
+const closeReport = document.getElementById("closeReport");
+const reportMsg = document.getElementById("reportMsg");
+
+reportBtn.onclick = () => { reportModal.style.display = "block"; };
+closeReport.onclick = () => { reportModal.style.display = "none"; reportMsg.value = ""; };
+sendReport.onclick = () => {
+  const msg = reportMsg.value.trim();
+  if (!msg) { alert("Please write your message before sending."); return; }
+  const whatsappNumber = "9108069409455";
+  const message = `⚠️ Reported Mistake\n\n📘 Quiz Title: ${quizTitle}\n👤 Student: ${student || "Anonymous"}\n\n📝 Message:\n${msg}`;
+  const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(waUrl, "_blank");
+  reportModal.style.display = "none";
+  reportMsg.value = "";
+};
+</script>
+
+</body>
+</html>

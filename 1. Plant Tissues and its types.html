@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  
+  
+  <title> Quiz – 1. Plant Tissues and its types</title>
+  
+  
+  <style>
+    body{font-family:Arial, sans-serif;padding:20px;background:#121212;color:#f0f0f0;}
+    #logo{display:block;margin:0 auto 25px;max-width:180px;}
+    #name-container{background:#1e1e1e;padding:30px;border-radius:6px;max-width:420px;margin:0 auto;}
+    #name-container input{width:100%;padding:10px;margin:10px 0 15px;border:none;border-radius:4px;font-size:16px;}
+    #quiz-container{display:none;}
+    .question{border:1px solid #333;padding:15px;margin-bottom:20px;border-radius:5px;background:#1e1e1e;}
+    .question h3{margin:0 0 10px;}
+    .option-item { display: flex; align-items: center; gap: 8px; margin: 6px 0; padding: 6px 8px; border-radius: 4px; background: #2a2a2a; color: #ccc; cursor: pointer; }
+    .option-item input[type="radio"] { margin: 0; }
+    .submit-button,.toggle-button,.dontknow-button{margin-top:10px;padding:6px 12px;background:#007BFF;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;}
+    .solution{display:none;margin-top:10px;background:#2d2d2d;padding:10px;border-left:4px solid #28a745;}
+    #scorecard{background:#2d2d2d;padding:15px;border-radius:6px;margin-top:30px;display:none;}
+    #timer{font-weight:bold;color:#00ffcc;}
+    #studentPrintName{text-align:center;font-size:18px;font-weight:bold;margin-top:-15px;margin-bottom:5px;display:none;}
+    #examDateTime{text-align:center;font-size:14px;margin-bottom:20px;display:none;}
+    @media print {
+      body { background: #fff; color:#000; }
+      .submit-button, .dontknow-button, .toggle-button, #reportBtn, #reportModal { display:none !important; }
+      #name-container { display:none !important; }
+    }
+    #reportBtn { position: fixed; bottom: 20px; right: 20px; background: #ff4757; color: white; border: none; padding: 12px 18px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); z-index: 1000; }
+    #reportModal { display: none; position: fixed; bottom: 80px; right: 20px; background: #1e1e1e; border: 1px solid #444; padding: 15px; border-radius: 8px; width: 260px; z-index: 1001; }
+    #reportModal textarea { width: 100%; height: 80px; padding: 8px; border: none; border-radius: 4px; resize: none; font-size: 14px; }
+    #reportModal button { margin-top: 10px; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    #sendReport { background: #28a745; color: white; }
+    #closeReport { background: #dc3545; color: white; margin-left: 5px; }
+  </style>
+
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(','\\)'], ['$', '$']], 
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<img id="logo" src="https://i.ibb.co/WNZTWPwv/LOGO-PNG-2025-fab.png" alt="Logo" />
+
+<div id="studentPrintName"></div>
+<div id="examDateTime"></div>
+
+<div id="name-container">
+  <h2>Enter your name to begin</h2>
+  <input type="text" id="studentNameInput" placeholder="Your Name" />
+  <button class="submit-button" onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div id="quiz-container">
+
+
+  <h2> Quiz – 1. Plant Tissues and its types</h2>
+  
+  
+  <p><strong>Time Elapsed:</strong> <span id="timer">00:00</span></p>
+  <div id="questions-container"></div>
+
+  <div style="margin-top:30px;">
+    <button class="submit-button" onclick="finalSubmit()">Final Submit</button>
+    <button class="submit-button" onclick="printQuestions()">Print Questions</button>
+    <button class="submit-button" id="printScoreBtn" onclick="printScorecard()" style="display:none;">Save or Print Scorecard</button>
+    <button class="submit-button" id="shareWhatsappBtn" style="display:none;">SHARE on WhatsApp</button>
+  </div>
+
+ <div id="scorecard">
+  <h3>Your Scorecard</h3>
+  <p id="scoreText"></p>
+  <table id="scoreTable" border="1" cellspacing="0" cellpadding="6" style="width:100%;border-collapse:collapse;margin-top:15px;">
+    <thead style="background:#333;color:#fff;">
+      <tr>
+        <th>Q.No</th>
+        <th>Question</th>
+        <th>Your Answer</th>
+        <th>Correct Answer</th>
+        <th>Result</th>
+        <th>Solution</th>
+      </tr>
+    </thead>
+    <tbody id="scoreDetails"></tbody>
+  </table>
+</div>
+
+<button id="reportBtn">Report Mistake</button>
+
+<div id="reportModal">
+  <textarea id="reportMsg" placeholder="Describe the mistake..."></textarea>
+  <div style="text-align:right;">
+    <button id="sendReport">Send</button>
+    <button id="closeReport">Close</button>
+  </div>
+</div>
+
+<script>
+
+
+const Q = [
+  {
+    "id": "q1",
+    "text": "Which of the following is a simple permanent tissue?",
+    "options": [
+      "A. Xylem",
+      "B. Phloem",
+      "C. Parenchyma",
+      "D. Cambium"
+    ],
+    "correct": "C",
+    "solution": "Parenchyma is a simple permanent tissue made of living cells with thin walls."
+  },
+  {
+    "id": "q2",
+    "text": "Which meristem is responsible for increase in length of plant organs?",
+    "options": [
+      "A. Apical meristem",
+      "B. Lateral meristem",
+      "C. Intercalary meristem",
+      "D. Secondary meristem"
+    ],
+    "correct": "A",
+    "solution": "Apical meristem is located at root and shoot tips and causes primary growth (increase in length)."
+  },
+  {
+    "id": "q3",
+    "text": "Collenchyma cells are characterized by:",
+    "options": [
+      "A. Thickened corners",
+      "B. Lignified walls",
+      "C. Dead cells",
+      "D. Storage function only"
+    ],
+    "correct": "A",
+    "solution": "Collenchyma has unevenly thickened cell walls at corners, providing flexibility and support."
+  },
+  {
+    "id": "q4",
+    "text": "Which plant tissue conducts water?",
+    "options": [
+      "A. Xylem",
+      "B. Phloem",
+      "C. Collenchyma",
+      "D. Cork"
+    ],
+    "correct": "A",
+    "solution": "Xylem conducts water and minerals from roots to aerial parts."
+  },
+  {
+    "id": "q5",
+    "text": "The phloem transports:",
+    "options": [
+      "A. Water only",
+      "B. Minerals only",
+      "C. Food materials",
+      "D. Oxygen"
+    ],
+    "correct": "C",
+    "solution": "Phloem conducts organic food (sucrose) from leaves to other plant parts."
+  },
+  {
+    "id": "q6",
+    "text": "Which cells are dead at maturity?",
+    "options": [
+      "A. Parenchyma",
+      "B. Sieve tube",
+      "C. Tracheids",
+      "D. Companion cells"
+    ],
+    "correct": "C",
+    "solution": "Tracheids (part of xylem) are dead at maturity and help in water conduction."
+  },
+  {
+    "id": "q7",
+    "text": "Which tissue forms the outer protective covering of plants?",
+    "options": [
+      "A. Cork",
+      "B. Collenchyma",
+      "C. Xylem",
+      "D. Phloem"
+    ],
+    "correct": "A",
+    "solution": "Cork (phellem) is a protective tissue that replaces epidermis in older stems and roots."
+  },
+  {
+    "id": "q8",
+    "text": "Guard cells are part of:",
+    "options": [
+      "A. Xylem",
+      "B. Phloem",
+      "C. Epidermis",
+      "D. Cork"
+    ],
+    "correct": "C",
+    "solution": "Guard cells are specialized epidermal cells that regulate stomatal opening and closing."
+  },
+  {
+    "id": "q9",
+    "text": "Sieve tubes are always associated with:",
+    "options": [
+      "A. Xylem vessels",
+      "B. Tracheids",
+      "C. Companion cells",
+      "D. Cork cells"
+    ],
+    "correct": "C",
+    "solution": "Sieve tubes lack nuclei; companion cells regulate their activity."
+  },
+  {
+    "id": "q10",
+    "text": "Which tissue provides tensile strength due to lignin deposition?",
+    "options": [
+      "A. Parenchyma",
+      "B. Sclerenchyma",
+      "C. Collenchyma",
+      "D. Phloem"
+    ],
+    "correct": "B",
+    "solution": "Sclerenchyma has lignified cell walls that provide mechanical strength."
+  },
+  {
+    "id": "q11",
+    "text": "Intercalary meristem is present at:",
+    "options": [
+      "A. Root tips",
+      "B. Shoot apex",
+      "C. Base of leaves or nodes",
+      "D. Cork cambium"
+    ],
+    "correct": "C",
+    "solution": "Intercalary meristems are located at nodes and bases of leaves, allowing regrowth (e.g., in grasses)."
+  },
+  {
+    "id": "q12",
+    "text": "What type of tissue is responsible for secondary growth in dicot stems?",
+    "options": [
+      "A. Apical meristem",
+      "B. Intercalary meristem",
+      "C. Vascular cambium",
+      "D. Epidermis"
+    ],
+    "correct": "C",
+    "solution": "Vascular cambium is a lateral meristem responsible for secondary growth in dicots."
+  },
+  {
+    "id": "q13",
+    "text": "Epidermis is usually covered by:",
+    "options": [
+      "A. Cork",
+      "B. Cuticle",
+      "C. Pith",
+      "D. Companion cells"
+    ],
+    "correct": "B",
+    "solution": "Epidermis has a waxy cuticle that reduces water loss by evaporation."
+  },
+  {
+    "id": "q14",
+    "text": "Which tissue stores starch, proteins, and fats?",
+    "options": [
+      "A. Collenchyma",
+      "B. Parenchyma",
+      "C. Xylem",
+      "D. Sclerenchyma"
+    ],
+    "correct": "B",
+    "solution": "Parenchyma stores food materials such as starch, proteins, and fats."
+  },
+  {
+    "id": "q15",
+    "text": "Xylem fibers belong to which type of tissue?",
+    "options": [
+      "A. Simple permanent",
+      "B. Complex permanent",
+      "C. Meristematic",
+      "D. Protective"
+    ],
+    "correct": "B",
+    "solution": "Xylem is a complex permanent tissue made of different cell types, including fibers."
+  },
+  {
+    "id": "q16",
+    "text": "Cork cells are rich in:",
+    "options": [
+      "A. Cellulose",
+      "B. Lignin",
+      "C. Suberin",
+      "D. Starch"
+    ],
+    "correct": "C",
+    "solution": "Cork cells contain suberin in their walls, making them impermeable to water and gases."
+  },
+  {
+    "id": "q17",
+    "text": "The living mechanical tissue of plants is:",
+    "options": [
+      "A. Collenchyma",
+      "B. Sclerenchyma",
+      "C. Parenchyma",
+      "D. Cork"
+    ],
+    "correct": "A",
+    "solution": "Collenchyma provides support while remaining living and flexible."
+  },
+  {
+    "id": "q18",
+    "text": "Which xylem element has perforated end walls?",
+    "options": [
+      "A. Tracheids",
+      "B. Vessels",
+      "C. Fibers",
+      "D. Parenchyma"
+    ],
+    "correct": "B",
+    "solution": "Xylem vessels are tubular structures with perforated end walls that allow water transport."
+  },
+  {
+    "id": "q19",
+    "text": "The main function of phloem fibers is:",
+    "options": [
+      "A. Transport of food",
+      "B. Support",
+      "C. Transport of water",
+      "D. Storage"
+    ],
+    "correct": "B",
+    "solution": "Phloem fibers (sclerenchymatous) provide mechanical support."
+  },
+  {
+    "id": "q20",
+    "text": "The cork cambium is also known as:",
+    "options": [
+      "A. Phellogen",
+      "B. Phellem",
+      "C. Periderm",
+      "D. Cambium"
+    ],
+    "correct": "A",
+    "solution": "Cork cambium is called phellogen, which produces cork (phellem) outward and secondary cortex inward."
+  }
+]
+
+;
+
+
+
+let student = '';
+let timerHandle;
+let printMode = '';
+let examDateTime = '';
+
+const quizTitle = document.title.split("Quiz")[1]?.trim() || document.title;
+
+function startQuiz() {
+  const name = document.getElementById('studentNameInput').value.trim();
+  if (!name) { alert('Please enter your name.'); return; }
+  student = name;
+  examDateTime = new Date().toLocaleString();
+  document.getElementById('name-container').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  buildQuestions();
+  if (window.MathJax) MathJax.typesetPromise();
+  startTimer();
+}
+
+function buildQuestions() {
+  const out = document.getElementById('questions-container');
+  out.innerHTML = '';
+  Q.forEach((q, index) => {
+    const optionsHTML = q.options.map((opt, i) => {
+      const letter = String.fromCharCode(65 + i);
+      return `<label class="option-item" for="${q.id}-${letter}"><input type="radio" id="${q.id}-${letter}" name="${q.id}" value="${letter}" onchange="enableSubmit('${q.id}')">${letter}. ${opt}</label>`;
+    }).join('');
+    out.insertAdjacentHTML('beforeend', `<div class="question" id="${q.id}-wrap"><h3>Q${index + 1}. ${q.text}</h3><div class="options">${optionsHTML}</div><div id="${q.id}-buttons"><button id="sub-${q.id}" class="submit-button" disabled onclick="grade('${q.id}')">Submit</button><button class="dontknow-button" onclick="skip('${q.id}')">I Don’t Know</button></div><button class="toggle-button" id="btn-sol-${q.id}" style="display:none;" onclick="toggleSolution('sol-${q.id}')">Show Solution</button><div class="solution" id="sol-${q.id}"><strong>Solution:</strong> ${q.solution}</div></div>`);
+  });
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+function enableSubmit(qid) { document.getElementById(`sub-${qid}`).disabled = false; }
+
+function grade(qid) {
+  const q = Q.find(x => x.id === qid);
+  const correct = q.correct;
+  const chosen = document.querySelector(`input[name="${qid}"]:checked`);
+  if (!chosen) return;
+  document.querySelectorAll(`input[name="${qid}"]`).forEach(i => i.disabled = true);
+  const chosenLabel = chosen.closest('label.option-item');
+  const correctInput = document.querySelector(`input[name="${qid}"][value="${correct}"]`);
+  const correctLabel = correctInput ? correctInput.closest('label.option-item') : null;
+  if (chosen.value === correct) { if (chosenLabel) { chosenLabel.style.background = '#28a745'; chosenLabel.style.color = '#fff'; } } 
+  else { if (chosenLabel) { chosenLabel.style.background = '#dc3545'; chosenLabel.style.color = '#fff'; } if (correctLabel) { correctLabel.style.background = '#28a745'; correctLabel.style.color = '#fff'; } }
+  document.getElementById(`sol-${qid}`).style.display = "block";
+  document.getElementById(`${qid}-buttons`).style.display = "none";
+  document.getElementById(`btn-sol-${qid}`).style.display = "none";
+}
+
+function skip(qid) { document.querySelectorAll(`input[name="${qid}"]`).forEach(r => r.disabled = true); showSolutionButton(qid); }
+function showSolutionButton(qid) { document.getElementById(`btn-sol-${qid}`).style.display = 'inline-block'; document.getElementById(`${qid}-buttons`).style.display = 'none'; }
+function toggleSolution(id) { const elem = document.getElementById(id); elem.style.display = elem.style.display === 'block' ? 'none' : 'block'; }
+
+function startTimer() {
+  const display = document.getElementById('timer');
+  const started = Date.now();
+  timerHandle = setInterval(() => { const s = Math.floor((Date.now() - started) / 1000); display.textContent = `${String((s / 60) | 0).padStart(2,'0')}:${String(s % 60).padStart(2,'0')}`; }, 1000);
+}
+
+function finalSubmit() {
+  clearInterval(timerHandle);
+  document.querySelectorAll("input[type=radio]").forEach(r => r.disabled = true);
+  document.querySelectorAll(".submit-button, .dontknow-button").forEach(btn => btn.style.display = "none");
+  let score = 0, detailHTML = '';
+  Q.forEach((q, index) => {
+    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+    const chosen = checked ? checked.value : 'Not Answered';
+    const correct = (chosen === q.correct);
+    if (correct) score++;
+    detailHTML += `<tr><td>${index + 1}</td><td>${q.text}</td><td>${chosen}</td><td>${q.correct}</td><td>${correct ? '✅ Correct' : '❌ Incorrect'}</td><td>${q.solution}</td></tr>`;
+  });
+  document.getElementById('scoreText').innerText = `${student}, you scored ${score}/${Q.length}.`;
+  document.getElementById('scoreDetails').innerHTML = detailHTML;
+  document.getElementById('scorecard').style.display = 'block';
+  document.getElementById('printScoreBtn').style.display = 'inline-block';
+  document.getElementById('shareWhatsappBtn').style.display = 'inline-block';
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+function printQuestions() { printMode = "questions"; window.print(); }
+function printScorecard() { document.getElementById("studentPrintName").innerText = student; document.getElementById("examDateTime").innerText = "Exam Date & Time: " + examDateTime; printMode = "scorecard"; window.print(); }
+
+window.addEventListener('beforeprint', () => {
+  if (printMode === "questions") { document.querySelector("#questions-container").style.display = "block"; document.querySelector("#scorecard").style.display = "none"; document.querySelector("#logo").style.display = "none"; document.querySelector("#name-container").style.display = "none"; document.querySelector("#timer").style.display = "none"; document.querySelector("#studentPrintName").style.display = "none"; document.querySelector("#examDateTime").style.display = "none"; }
+  if (printMode === "scorecard") { document.querySelector("#questions-container").style.display = "none"; document.querySelector("#scorecard").style.display = "block"; document.querySelector("#logo").style.display = "block"; document.querySelector("#name-container").style.display = "none"; document.querySelector("#studentPrintName").style.display = "block"; document.querySelector("#examDateTime").style.display = "block"; }
+});
+window.addEventListener('afterprint', () => { document.querySelector("#questions-container").style.display = ""; document.querySelector("#scorecard").style.display = ""; document.querySelector("#logo").style.display = ""; document.querySelector("#name-container").style.display = ""; document.querySelector("#timer").style.display = ""; document.querySelector("#studentPrintName").style.display = "none"; document.querySelector("#examDateTime").style.display = "none"; });
+
+document.getElementById("shareWhatsappBtn").addEventListener("click", function () {
+  const whatsappNumber = "9108069409455";
+  const scoreText = document.getElementById('scoreText').innerText;
+  let details = "Details:\n";
+  Q.forEach((q, i) => {
+    const qNum = i + 1;
+    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+    const userAns = checked ? checked.value : "Not Answered";
+    const correctAns = q.correct;
+    if (userAns === correctAns) { details += `Q${qNum} → ✅ Correct (Your Ans: ${userAns})\n`; }
+    else { details += `Q${qNum} → ❌ Wrong (Your Ans: ${userAns} | Correct: ${correctAns})\n`; }
+  });
+  const message = `Sir, I have shared my Test Result for checking. Thank you!\n\n📘 Quiz Title: ${quizTitle}\n👤 Student: ${student}\n${scoreText}\n\n${details}`;
+  const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(waUrl, "_blank");
+});
+
+const reportBtn = document.getElementById("reportBtn");
+const reportModal = document.getElementById("reportModal");
+const sendReport = document.getElementById("sendReport");
+const closeReport = document.getElementById("closeReport");
+const reportMsg = document.getElementById("reportMsg");
+
+reportBtn.onclick = () => { reportModal.style.display = "block"; };
+closeReport.onclick = () => { reportModal.style.display = "none"; reportMsg.value = ""; };
+sendReport.onclick = () => {
+  const msg = reportMsg.value.trim();
+  if (!msg) { alert("Please write your message before sending."); return; }
+  const whatsappNumber = "9108069409455";
+  const message = `⚠️ Reported Mistake\n\n📘 Quiz Title: ${quizTitle}\n👤 Student: ${student || "Anonymous"}\n\n📝 Message:\n${msg}`;
+  const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(waUrl, "_blank");
+  reportModal.style.display = "none";
+  reportMsg.value = "";
+};
+</script>
+
+</body>
+</html>
