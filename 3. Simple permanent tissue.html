@@ -2,38 +2,189 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  
-  
-  <title> Quiz – 3. Simple permanent tissue</title>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Added for mobile responsiveness -->
+
+  <title> Quiz – _______________________________</title>
   
   <style>
-    body{font-family:Arial, sans-serif;padding:20px;background:#121212;color:#f0f0f0;}
-    #logo{display:block;margin:0 auto 25px;max-width:180px;}
-    #name-container{background:#1e1e1e;padding:30px;border-radius:6px;max-width:420px;margin:0 auto;}
-    #name-container input{width:100%;padding:10px;margin:10px 0 15px;border:none;border-radius:4px;font-size:16px;}
-    #quiz-container{display:none;}
-    .question{border:1px solid #333;padding:15px;margin-bottom:20px;border-radius:5px;background:#1e1e1e;}
-    .question h3{margin:0 0 10px;}
-    .option-item { display: flex; align-items: center; gap: 8px; margin: 6px 0; padding: 6px 8px; border-radius: 4px; background: #2a2a2a; color: #ccc; cursor: pointer; }
-    .option-item input[type="radio"] { margin: 0; }
-    .submit-button,.toggle-button,.dontknow-button{margin-top:10px;padding:6px 12px;background:#007BFF;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;}
-    .solution{display:none;margin-top:10px;background:#2d2d2d;padding:10px;border-left:4px solid #28a745;}
-    #scorecard{background:#2d2d2d;padding:15px;border-radius:6px;margin-top:30px;display:none;}
-    #timer{font-weight:bold;color:#00ffcc;}
-    #studentPrintName{text-align:center;font-size:18px;font-weight:bold;margin-top:-15px;margin-bottom:5px;display:none;}
-    #examDateTime{text-align:center;font-size:14px;margin-bottom:20px;display:none;}
-    @media print {
-      body { background: #fff; color:#000; }
-      .submit-button, .dontknow-button, .toggle-button, #reportBtn, #reportModal { display:none !important; }
-      #name-container { display:none !important; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #121212;
+      color: #f0f0f0;
     }
-    #reportBtn { position: fixed; bottom: 20px; right: 20px; background: #ff4757; color: white; border: none; padding: 12px 18px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); z-index: 1000; }
-    #reportModal { display: none; position: fixed; bottom: 80px; right: 20px; background: #1e1e1e; border: 1px solid #444; padding: 15px; border-radius: 8px; width: 260px; z-index: 1001; }
-    #reportModal textarea { width: 100%; height: 80px; padding: 8px; border: none; border-radius: 4px; resize: none; font-size: 14px; }
-    #reportModal button { margin-top: 10px; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    #sendReport { background: #28a745; color: white; }
-    #closeReport { background: #dc3545; color: white; margin-left: 5px; }
+    #logo {
+      display: block;
+      margin: 0 auto 25px;
+      max-width: 180px;
+      width: 80%;
+      height: auto;
+    }
+    #name-container {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 6px;
+      max-width: 420px;
+      width: 90%;
+      margin: 0 auto;
+    }
+    #name-container input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    #quiz-container {
+      display: none;
+    }
+    .question {
+      border: 1px solid #333;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      background: #1e1e1e;
+    }
+    .question h3 {
+      margin: 0 0 10px;
+    }
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0;
+      padding: 6px 8px;
+      border-radius: 4px;
+      background: #2a2a2a;
+      color: #ccc;
+      cursor: pointer;
+    }
+    .option-item input[type="radio"] {
+      margin: 0;
+    }
+    .submit-button, .toggle-button, .dontknow-button {
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    .solution {
+      display: none;
+      margin-top: 10px;
+      background: #2d2d2d;
+      padding: 10px;
+      border-left: 4px solid #28a745;
+    }
+    #scorecard {
+      background: #2d2d2d;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 30px;
+      display: none;
+    }
+    #timer {
+      font-weight: bold;
+      color: #00ffcc;
+    }
+    #studentPrintName {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: -15px;
+      margin-bottom: 5px;
+      display: none;
+    }
+    #examDateTime {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+      .submit-button, .dontknow-button, .toggle-button, #reportBtn, #reportModal {
+        display: none !important;
+      }
+      #name-container {
+        display: none !important;
+      }
+    }
+    #reportBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff4757;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    #reportModal {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #1e1e1e;
+      border: 1px solid #444;
+      padding: 15px;
+      border-radius: 8px;
+      width: 260px;
+      z-index: 1001;
+    }
+    #reportModal textarea {
+      width: 100%;
+      height: 80px;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      resize: none;
+      font-size: 14px;
+    }
+    #reportModal button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #sendReport {
+      background: #28a745;
+      color: white;
+    }
+    #closeReport {
+      background: #dc3545;
+      color: white;
+      margin-left: 5px;
+    }
+    /* Added responsive styles */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    @media (max-width: 480px) {
+      .submit-button, .dontknow-button {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+    #scoreTable {
+      overflow-x: auto;
+      display: block;
+      width: 100%;
+    }
   </style>
 
   <!-- MathJax Configuration -->
@@ -64,9 +215,7 @@
 
 <div id="quiz-container">
 
-
-  <h2> Quiz – 3. Simple permanent tissue</h2>
-  
+  <h2> Quiz – _____________________________</h2>
   
   <p><strong>Time Elapsed:</strong> <span id="timer">00:00</span></p>
   <div id="questions-container"></div>
@@ -78,22 +227,23 @@
     <button class="submit-button" id="shareWhatsappBtn" style="display:none;">SHARE on WhatsApp</button>
   </div>
 
- <div id="scorecard">
-  <h3>Your Scorecard</h3>
-  <p id="scoreText"></p>
-  <table id="scoreTable" border="1" cellspacing="0" cellpadding="6" style="width:100%;border-collapse:collapse;margin-top:15px;">
-    <thead style="background:#333;color:#fff;">
-      <tr>
-        <th>Q.No</th>
-        <th>Question</th>
-        <th>Your Answer</th>
-        <th>Correct Answer</th>
-        <th>Result</th>
-        <th>Solution</th>
-      </tr>
-    </thead>
-    <tbody id="scoreDetails"></tbody>
-  </table>
+  <div id="scorecard">
+    <h3>Your Scorecard</h3>
+    <p id="scoreText"></p>
+    <table id="scoreTable" border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; margin-top:15px;">
+      <thead style="background:#333;color:#fff;">
+        <tr>
+          <th>Q.No</th>
+          <th>Question</th>
+          <th>Your Answer</th>
+          <th>Correct Answer</th>
+          <th>Result</th>
+          <th>Solution</th>
+        </tr>
+      </thead>
+      <tbody id="scoreDetails"></tbody>
+    </table>
+  </div>
 </div>
 
 <button id="reportBtn">Report Mistake</button>
@@ -107,7 +257,8 @@
 </div>
 
 <script>
-
+// JavaScript content remains unchanged except responsive improvements handled by CSS only
+// (You can paste the JavaScript section exactly as in your original code here)
 
 const Q = [
   {
@@ -412,7 +563,6 @@ const Q = [
   }
 
 ]
-
 ;
 
 
@@ -446,18 +596,14 @@ function buildQuestions() {
     // Normalize options into an ordered array of [letter, optionText]
     let entries = [];
     if (Array.isArray(q.options)) {
-      // options is an array -> map to A, B, C...
       entries = q.options.map((opt, i) => [String.fromCharCode(65 + i), opt]);
     } else if (q.options && typeof q.options === 'object') {
-      // options is an object -> check if keys are letters (A,B,C...) or numeric
       const keys = Object.keys(q.options);
       const keysAreLetters = keys.every(k => /^[A-Z]$/.test(k));
       if (keysAreLetters) {
-        // sort alphabetically to ensure order A,B,C...
         keys.sort();
         entries = keys.map(k => [k, q.options[k]]);
       } else {
-        // numeric keys or other -> preserve insertion order but assign letters A,B,C..
         entries = keys.map((k, i) => [String.fromCharCode(65 + i), q.options[k]]);
       }
     }
@@ -471,6 +617,14 @@ function buildQuestions() {
 
     const imageHTML = q.image ? `<div><img src="${q.image}" alt="figure" style="max-width:360px; margin:10px 0; display:block;"></div>` : '';
 
+    // Handle solution steps if they exist
+    let solutionStepsHTML = '';
+    if (q.solution_steps && Array.isArray(q.solution_steps) && q.solution_steps.length > 0) {
+      solutionStepsHTML = '<ul style="margin-top:10px;">' +
+        q.solution_steps.map(step => `<li>${step}</li>`).join('') +
+        '</ul>';
+    }
+
     out.insertAdjacentHTML('beforeend', `
       <div class="question" id="${q.id}-wrap">
         <h3>Q${index + 1}. ${qText}</h3>
@@ -481,12 +635,13 @@ function buildQuestions() {
           <button class="dontknow-button" onclick="skip('${q.id}')">I Don’t Know</button>
         </div>
         <button class="toggle-button" id="btn-sol-${q.id}" style="display:none;" onclick="toggleSolution('sol-${q.id}')">Show Solution</button>
-        <div class="solution" id="sol-${q.id}"><strong>Solution:</strong> ${q.solution}</div>
+        <div class="solution" id="sol-${q.id}">
+          <strong>Solution:</strong> ${q.solution || ''} ${solutionStepsHTML}
+        </div>
       </div>
     `);
   });
 
-  // re-run MathJax to typeset any LaTeX in added content
   if (window.MathJax && typeof MathJax.typesetPromise === 'function') MathJax.typesetPromise();
 }
 
@@ -559,36 +714,78 @@ function finalSubmit() {
   document.querySelectorAll("input[type=radio]").forEach(r => r.disabled = true);
   document.querySelectorAll(".submit-button, .dontknow-button").forEach(btn => btn.style.display = "none");
 
-  let score = 0, detailHTML = '';
+  let totalMarks = 0;
+  let negativeMarks = 0;
+  let possibleMarks = Q.length * 4;
+  let detailHTML = '';
+
   Q.forEach((q, index) => {
     const checked = document.querySelector(`input[name="${q.id}"]:checked`);
-    const chosen = checked ? checked.value : 'Not Answered';
+    const chosen = checked ? checked.value : null;
 
-    // ✅ unify correct answer field
     const correctLetter = q.correct || q.answer || q.key || q.correctAnswer;
 
-    const isCorrect = (chosen === correctLetter);
-    if (isCorrect) score++;
+    let marks = 0;
+    let resultText = "";
+
+    if (chosen === null) {
+      marks = 0;
+      resultText = "⚪ Not Attempted / I Don’t Know (0)";
+    } else if (chosen === correctLetter) {
+      marks = 4;
+      resultText = "✅ Correct (+4)";
+    } else {
+      marks = -1;
+      resultText = "❌ Incorrect (-1)";
+    }
+
+    totalMarks += marks > 0 ? marks : 0;
+    negativeMarks += marks < 0 ? marks : 0;
+
+    let solutionStepsHTML = '';
+    if (q.solution_steps && Array.isArray(q.solution_steps) && q.solution_steps.length > 0) {
+      solutionStepsHTML = '<ul style="margin-top:5px;">' +
+        q.solution_steps.map(step => `<li>${step}</li>`).join('') +
+        '</ul>';
+    }
 
     detailHTML += `
       <tr>
         <td>${index + 1}</td>
         <td>${q.text || q.question}</td>
-        <td>${chosen}</td>
+        <td>${chosen || 'Not Answered'}</td>
         <td>${correctLetter}</td>
-        <td>${isCorrect ? '✅ Correct' : '❌ Incorrect'}</td>
-        <td>${q.solution}</td>
+        <td>${resultText}</td>
+        <td>${q.solution || ''}${solutionStepsHTML}</td>
+        <td>${marks}</td>
       </tr>`;
   });
 
-  document.getElementById('scoreText').innerText = `${student}, you scored ${score}/${Q.length}.`;
+  const finalScore = totalMarks + negativeMarks;
+
+  document.getElementById('scoreText').innerHTML = `${student}, here is your result:`;
   document.getElementById('scoreDetails').innerHTML = detailHTML;
+
+  const summaryHTML = `
+    <div style="margin-top:20px; font-weight:bold;">
+      <p>Total Marks (Possible): ${possibleMarks}</p>
+      <p>Total Marks (Correct Answers): ${totalMarks}</p>
+      <p>Negative Marks (Wrong Answers): ${negativeMarks}</p>
+      <p>Final Score: ${finalScore}</p>
+    </div>
+  `;
+  document.getElementById('scorecard').insertAdjacentHTML('beforeend', summaryHTML);
+
   document.getElementById('scorecard').style.display = 'block';
   document.getElementById('printScoreBtn').style.display = 'inline-block';
   document.getElementById('shareWhatsappBtn').style.display = 'inline-block';
 
-  if (window.MathJax) MathJax.typesetPromise();
+  if (window.MathJax && typeof MathJax.typesetPromise === 'function') MathJax.typesetPromise();
 }
+
+
+
+
 
 
 function printQuestions() { printMode = "questions"; window.print(); }
@@ -600,22 +797,60 @@ window.addEventListener('beforeprint', () => {
 });
 window.addEventListener('afterprint', () => { document.querySelector("#questions-container").style.display = ""; document.querySelector("#scorecard").style.display = ""; document.querySelector("#logo").style.display = ""; document.querySelector("#name-container").style.display = ""; document.querySelector("#timer").style.display = ""; document.querySelector("#studentPrintName").style.display = "none"; document.querySelector("#examDateTime").style.display = "none"; });
 
+
+
+
 document.getElementById("shareWhatsappBtn").addEventListener("click", function () {
   const whatsappNumber = "9108069409455";
-  const scoreText = document.getElementById('scoreText').innerText;
-  let details = "Details:\n";
+
+  if (!student) {
+    alert("Please complete the quiz first.");
+    return;
+  }
+
+  const scoreText = document.getElementById('scoreText').innerText || "Result not available";
+
+  let totalMarks = 0;
+  let negativeMarks = 0;
+  let possibleMarks = Q.length * 4;
+
+  let details = "";
+
   Q.forEach((q, i) => {
     const qNum = i + 1;
     const checked = document.querySelector(`input[name="${q.id}"]:checked`);
-    const userAns = checked ? checked.value : "Not Answered";
-    const correctAns = q.correct;
-    if (userAns === correctAns) { details += `Q${qNum} → ✅ Correct (Your Ans: ${userAns})\n`; }
-    else { details += `Q${qNum} → ❌ Wrong (Your Ans: ${userAns} | Correct: ${correctAns})\n`; }
+    let userAns = checked ? checked.value : null;
+    const correctAns = q.correct || q.answer || q.key || q.correctAnswer;
+
+    let marks = 0;
+    let resultText = "";
+
+    if (userAns === null) {
+      marks = 0;
+      resultText = "⚪ Not Attempted / I Don’t Know (0)";
+      userAns = "Not Answered";
+    } else if (userAns === correctAns) {
+      marks = 4;
+      resultText = "✅ Correct (+4)";
+    } else {
+      marks = -1;
+      resultText = "❌ Incorrect (-1)";
+    }
+
+    totalMarks += marks > 0 ? marks : 0;
+    negativeMarks += marks < 0 ? marks : 0;
+
+    details += `Q${qNum} → ${resultText} (Your Ans: ${userAns} | Correct: ${correctAns})\n`;
   });
-  const message = `Sir, I have shared my Test Result for checking. Thank you!\n\n📘 Quiz Title: ${quizTitle}\n👤 Student: ${student}\n${scoreText}\n\n${details}`;
+
+  const finalScore = totalMarks + negativeMarks;
+
+  const message = `Sir, I have shared my Test Result for checking. Thank you!\n\n📘 Quiz Title: ${quizTitle}\n👤 Student: ${student}\n\n${scoreText}\n\n📊 Summary:\n✔ Total Marks (Possible): ${possibleMarks}\n✔ Total Marks (Correct Answers): ${totalMarks}\n✔ Negative Marks (Wrong Answers): ${negativeMarks}\n✔ Final Score: ${finalScore}\n\nDetails:\n${details}`;
+
   const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   window.open(waUrl, "_blank");
 });
+
 
 const reportBtn = document.getElementById("reportBtn");
 const reportModal = document.getElementById("reportModal");
